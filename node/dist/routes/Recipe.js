@@ -91,7 +91,7 @@ function getSearch() {
     var searches = ["chicken", "sushi", "banana", "orange", "burger", "carrot"];
     return searches[Math.floor(Math.random() * searches.length - 1)];
 }
-route.get("/", CheckToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+route.get("/get", CheckToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var search, q, recipes, results;
     return __generator(this, function (_a) {
         switch (_a.label) {

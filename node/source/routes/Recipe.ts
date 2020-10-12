@@ -37,7 +37,7 @@ function getSearch() {
     return searches[Math.floor(Math.random()*searches.length - 1)]
 }
 
-route.get("/", checkToken, async(req:Request,res:Response) =>{
+route.get("/get", checkToken, async(req:Request,res:Response) =>{
     const {
         search
     } = req.body

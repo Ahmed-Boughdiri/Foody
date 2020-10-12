@@ -35,6 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -43,22 +50,79 @@ var express_1 = __importDefault(require("express"));
 var VerifyToken_1 = __importDefault(require("../util/VerifyToken"));
 var User_1 = __importDefault(require("../models/User"));
 var route = express_1.default.Router();
-route.get("/save", VerifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, recipe;
+route.post("/save", VerifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, recipe, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.body.user.id;
                 recipe = req.body.recipe;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, User_1.default.updateOne({ _id: id }, {
                         $push: {
                             recipes: recipe
                         }
                     })];
-            case 1:
+            case 2:
                 _a.sent();
-                res.send("Done");
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                err_1 = _a.sent();
+                return [2 /*return*/, res.status(400).send({ error: "An Error Has Occured Please Try Again" })];
+            case 4: return [2 /*return*/, res.status(200).send(recipe)];
+        }
+    });
+}); });
+route.get("/get", VerifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, user, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.body.user.id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, User_1.default.findById(id)];
+            case 2:
+                user = _a.sent();
+                return [2 /*return*/, res.status(200).send(user === null || user === void 0 ? void 0 : user.recipes)];
+            case 3:
+                err_2 = _a.sent();
+                return [2 /*return*/, res.status(400).send({ error: "An Error Has Occured Please Try Again" })];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+route.delete("/delete", VerifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, recipe, user, newRecipes, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.body.user.id;
+                recipe = req.body.recipe;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, User_1.default.findById(id)];
+            case 2:
+                user = _a.sent();
+                newRecipes = user === null || user === void 0 ? void 0 : user.recipes.filter(function (userRecipe) { return userRecipe.label !== recipe.label; });
+                return [4 /*yield*/, User_1.default.updateOne({
+                        _id: id
+                    }, {
+                        $set: {
+                            recipes: __spreadArrays(newRecipes)
+                        }
+                    })];
+            case 3:
+                _a.sent();
+                return [2 /*return*/, res.send("Operation Has Completed Successfully")];
+            case 4:
+                err_3 = _a.sent();
+                return [2 /*return*/, res.status(400).send({ error: "An Error Has Occured Please Try Again Later" })];
+            case 5: return [2 /*return*/];
         }
     });
 }); });
