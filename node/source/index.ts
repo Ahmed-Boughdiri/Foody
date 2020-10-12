@@ -1,6 +1,8 @@
 import express,{ json } from "express";
 import Auth from "./routes/Auth";
 import mongoose from "mongoose";
+import Recipe from "./routes/Recipe";
+import saveRecipe from "./routes/SaveRecipe";
 
 const app = express();
 const PORT = 5000;
@@ -14,3 +16,5 @@ mongoose.connect(
 
 app.use(json())
 app.use("/api/auth",Auth);
+app.use("/api/recipe", Recipe)
+app.use("/api/user/recipe",saveRecipe)

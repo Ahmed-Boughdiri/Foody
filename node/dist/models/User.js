@@ -8,5 +8,17 @@ var userSchema = new mongoose_1.default.Schema({
     username: String,
     email: String,
     password: String,
+    recipes: [
+        {
+            label: String,
+            source: String,
+            image: String,
+            link: String,
+            ingredints: Array,
+            calories: Number,
+            time: Number,
+            totalNutrients: Array
+        }
+    ]
 });
 exports.default = mongoose_1.default.model("User", userSchema);

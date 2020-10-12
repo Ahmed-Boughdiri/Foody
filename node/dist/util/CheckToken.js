@@ -9,13 +9,8 @@ function default_1(req, res, next) {
     if (!token)
         return res.status(400).send({ error: "You Need To Have An Access Token In Order To Pursuit This Action" });
     var user = jsonwebtoken_1.default.verify(token, "thisisthefoodyapp");
-    if (!token)
-        return res.status(400).send({ error: "An Invalid Token Has Been Provided" });
-    req.body.user = {
-        username: user.username,
-        email: user.email,
-        id: user.id,
-    };
+    if (!user)
+        return res.status(400).send({ error: "An Invalid Access Token Has Been Provided" });
     next();
 }
 exports.default = default_1;
