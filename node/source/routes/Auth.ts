@@ -7,7 +7,7 @@ import verifyToken from "../util/VerifyToken";
 
 const route = express.Router();
 
-route.get("/login", verifyToken, async(req:Request,res:Response) =>{
+route.post("/login", verifyToken, async(req:Request,res:Response) =>{
     const {
         email,
         password,

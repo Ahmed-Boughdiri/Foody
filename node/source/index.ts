@@ -3,6 +3,7 @@ import Auth from "./routes/Auth";
 import mongoose from "mongoose";
 import Recipe from "./routes/Recipe";
 import saveRecipe from "./routes/SaveRecipe";
+import cors from "cors";
 
 const app = express();
 const PORT = 5000;
@@ -14,6 +15,7 @@ mongoose.connect(
     () =>console.log("DB Connected Successfully...")
 );
 
+app.use(cors())
 app.use(json())
 app.use("/api/auth",Auth);
 app.use("/api/recipe", Recipe)
