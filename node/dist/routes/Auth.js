@@ -44,9 +44,8 @@ var ValidateData_1 = __importDefault(require("../util/ValidateData"));
 var User_1 = __importDefault(require("../models/User"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var VerifyToken_1 = __importDefault(require("../util/VerifyToken"));
 var route = express_1.default.Router();
-route.post("/login", VerifyToken_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+route.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, username, user, comparedPassword, token;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -118,4 +117,13 @@ route.post("/register", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
+route.post("/token", function (req, res) {
+    var token = req.body.token;
+    if (!token)
+        return res.status(400).send({ error: "You Must Provide a Token" });
+    var tokenExists = jsonwebtoken_1.default.verify(token, "thisisthefoodyapp");
+    if (!token)
+        return res.status(400).send({ error: "Invalid" });
+    res.status(200).send(token);
+});
 exports.default = route;

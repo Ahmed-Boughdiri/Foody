@@ -7,7 +7,7 @@ import verifyToken from "../util/VerifyToken";
 
 const route = express.Router();
 
-route.post("/login", verifyToken, async(req:Request,res:Response) =>{
+route.post("/login", async(req:Request,res:Response) =>{
     const {
         email,
         password,
@@ -58,6 +58,16 @@ route.post("/register", async(req:Request,res:Response) =>{
         id: user._id, 
         token
     })
+})
+
+route.post("/token",(req:Request,res:Response) =>{
+    const {
+        token
+    } = req.body;
+    if(!token) return res.status(400).send({ error: "You Must Provide a Token" })
+    const tokenExists = jwt.verify(token,"thisisthefoodyapp")
+    if(!token) return res.status(400).send({ error: "Invalid" })
+    res.status(200).send(token);
 })
 
 export default route;
